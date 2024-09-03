@@ -18,7 +18,6 @@ class MarkdownParserTest {
 
     @Test
     public void testValidHeader() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "# This is a header";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -33,7 +32,6 @@ class MarkdownParserTest {
 
     @Test
     public void testInvalidHeader() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "####### Header 7";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -51,7 +49,6 @@ class MarkdownParserTest {
 
     @Test
     public void testValidBold() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "**Bold text**";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -67,7 +64,6 @@ class MarkdownParserTest {
 
     @Test
     public void testInvalidBold() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "**Unbalanced bold text";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -85,7 +81,6 @@ class MarkdownParserTest {
 
     @Test
     public void testValidItalic() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "_Italic text_";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -102,7 +97,6 @@ class MarkdownParserTest {
 
     @Test
     public void testInvalidItalic() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "_Unbalanced italic text";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -120,7 +114,6 @@ class MarkdownParserTest {
 
     @Test
     public void testValidLink() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "[OpenAI](https://openai.com)";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -138,7 +131,6 @@ class MarkdownParserTest {
 
     @Test
     public void testInvalidLink() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "[OpenAI](https://openai.com";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -156,7 +148,6 @@ class MarkdownParserTest {
 
     @Test
     public void testMixedElements() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "**Bold** _Italic_ [OpenAI](https://openai.com)";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -173,7 +164,6 @@ class MarkdownParserTest {
 
     @Test
     public void testParagraph() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "This is a paragraph.";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -192,7 +182,6 @@ class MarkdownParserTest {
 
     @Test
     public void testMultipleLines() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "# Header\n**Bold text**\nThis is a paragraph.\n[OpenAI](https://openai.com)";
 
         List<MarkdownElement> elements = parser.parse(markdown);
@@ -213,7 +202,6 @@ class MarkdownParserTest {
 
     @Test
     public void testErrorsAndValidElements() {
-//        MarkdownParser parser = new MarkdownParser();
         String markdown = "**Valid Bold**\nInvalid _Italic\n[OpenAI](https://openai.com)\n_Invalid Italic";
 
         List<MarkdownElement> elements = parser.parse(markdown);
