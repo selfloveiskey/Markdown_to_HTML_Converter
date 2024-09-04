@@ -5,9 +5,8 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class Main {
-    // Create a logger
-    private static final Logger logger = Logger.getLogger(Main.class.getName());
 
+    private static final Logger logger = Logger.getLogger(Main.class.getName()); // Create a logger
     private static final int MAX_CHAR_LIMIT = 1000; // Set your desired character limit here
 
     public static void main(String[] args) {
@@ -21,15 +20,13 @@ public class Main {
 
             logger.addHandler(fileHandler);
 
-            // Disable logging to console
-            logger.setUseParentHandlers(false);
+            logger.setUseParentHandlers(false); // Disable logging to console
 
         } catch (IOException e) {
 
             e.printStackTrace();
 
-            // Exit if logging setup fails
-            return;
+            return; // Exit if logging setup fails
         }
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -52,7 +49,7 @@ public class Main {
                 // Break if the input exceeds the maximum character limit
                 if (charCount + line.length() > MAX_CHAR_LIMIT) {
 
-                    System.out.println("Character limit exceeded. Please submit your input.");
+                    System.out.println("Character limit exceeded. Please resubmit your input.");
                     break;
                 }
 

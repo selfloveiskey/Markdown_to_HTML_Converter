@@ -154,7 +154,7 @@ public class MarkdownParser {
 
             } else {
 
-                elements.add(new MarkdownElement("text", token));
+                elements.add(new MarkdownElement("paragraph", token));
             }
         }
     }
