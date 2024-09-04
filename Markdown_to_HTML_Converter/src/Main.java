@@ -45,7 +45,7 @@ public class Main {
             String line;
             int charCount = 0;
 
-            System.out.println("Enter markdown text (end input with Ctrl+D on a new line):");
+            System.out.println("Enter markdown text (end input with Ctrl+D):");
 
             while ((line = reader.readLine()) != null) {
 
@@ -68,11 +68,11 @@ public class Main {
 
             // Handle any errors
             if (errorHandler.hasErrors()) {
-
                 logger.severe("Errors found:\n" + errorHandler.getErrors());
+            }
 
-            } else {
-                // Output the converted HTML
+            // Output the converted HTML if it's not empty or null
+            if (htmlOutput != null && !htmlOutput.isEmpty()) {
                 writer.write(htmlOutput);
             }
 
