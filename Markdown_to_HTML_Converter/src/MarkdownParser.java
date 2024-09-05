@@ -29,7 +29,11 @@ public class MarkdownParser {
 
             if (line.isEmpty()) continue;
 
-            if (isValidHeader(line)) {
+            if (containsMultipleElements(line)) {
+
+                elements.add(new MarkdownElement("multiple", line));
+
+            }else if (isValidHeader(line)) {
 
                 elements.add(new MarkdownElement("header", line));
 
@@ -45,16 +49,11 @@ public class MarkdownParser {
 
                 elements.add(new MarkdownElement("link", line));
 
-            } else if (containsMixedElements(line)) {
-
-                parseMixedElements(line, elements);
-
-            } else {
+            } else if (isValidParagraph(line)) {
 
                 elements.add(new MarkdownElement("paragraph", line));
             }
         }
-
         return elements;
     }
 
@@ -80,7 +79,6 @@ public class MarkdownParser {
 
         if (line.startsWith("**") && line.endsWith("**")) {
 
-            //return countOccurrences(line, "**") == 2;
             return true;
 
         } else {
@@ -95,7 +93,6 @@ public class MarkdownParser {
 
         if (line.startsWith("_") && line.endsWith("_")) {
 
-            //return countOccurrences(line, "_") == 2;
             return true;
 
         } else {
@@ -123,39 +120,86 @@ public class MarkdownParser {
         }
     }
 
-    private boolean containsMixedElements(String line) {
+    private boolean isValidParagraph(String line) {
 
-        // Check for a combination of elements within the same line
-        return line.contains("**") && line.contains("_") || line.contains("[");
+        Pattern pattern = Pattern.compile("^(?!<(h\\d|strong|em|a)).+");
+
+        Matcher matcher = pattern.matcher(line);
+
+        if (matcher.matches()) {
+
+            return true;
+
+        } else {
+
+            errorHandler.addError("Invalid header syntax: " + line);
+
+            return false;
+        }
     }
 
-    private void parseMixedElements(String line, List<MarkdownElement> elements) {
+    private boolean containsMultipleElements(String line) {
 
-        // Handle mixed elements, such as bold and italic in the same line
-        String[] tokens = line.split("\\s+");
+        int numOfElements = 0;
 
-        for (String token : tokens) {
+        // Patterns for bold, italic, links, and headers
+        String headerPattern = "^(#{1,6}) (.*)$";
+        String boldPattern = "(\\*\\*.*?\\*\\*)";
+        String italicPattern = "(_.*?_)|(\\*.*?\\*)";
+        String linkPattern = "\\[.*?\\]\\(.*?\\)";
+        //String paragraphPattern = "^(#{1,6} .*)$|\\*\\*[^*]+\\*\\*|_[^_]+_|\\*[^*]+\\*|\\[[^\\]]+\\]\\([^\\)]+\\)";
 
-            if (isValidHeader(token)) {
+        // Compile each pattern
+        Pattern header = Pattern.compile(headerPattern);
+        Pattern bold = Pattern.compile(boldPattern);
+        Pattern italic = Pattern.compile(italicPattern);
+        Pattern link = Pattern.compile(linkPattern);
+        //Pattern paragraph = Pattern.compile(paragraphPattern);
 
-                elements.add(new MarkdownElement("header", token));
+        // Check for matches
+        Matcher headerMatcher = header.matcher(line);
+        Matcher boldMatcher = bold.matcher(line);
+        Matcher italicMatcher = italic.matcher(line);
+        Matcher linkMatcher = link.matcher(line);
+        //Matcher paragraphMatcher = paragraph.matcher(line);
 
-            }else if (isValidBold(token)) {
-
-                elements.add(new MarkdownElement("bold", token));
-
-            } else if (isValidItalic(token)) {
-
-                elements.add(new MarkdownElement("italic", token));
-
-            } else if (isValidLink(token)) {
-
-                elements.add(new MarkdownElement("link", token));
-
-            } else {
-
-                elements.add(new MarkdownElement("paragraph", token));
-            }
+        if (headerMatcher.find()) {
+            numOfElements++;
         }
+        if (boldMatcher.find()) {
+            numOfElements++;
+        }
+        if (italicMatcher.find()) {
+            numOfElements++;
+        }
+        if (linkMatcher.find()) {
+            numOfElements++;
+        }
+/*        if (paragraphMatcher.find()) {
+            numOfElements++;
+        }*/
+
+        boolean isValidMixedLine = true;
+
+        if ((isValidHeader(line)
+                || isValidBold(line)
+                || isValidItalic(line)
+                || isValidLink(line)
+                || isValidParagraph(line))
+            && numOfElements <= 1 ){
+
+                isValidMixedLine = false;
+
+        } else if ((isValidHeader(line)
+                || isValidBold(line)
+                || isValidItalic(line)
+                || isValidLink(line)
+                || isValidParagraph(line))
+                && numOfElements >= 2) {
+
+            isValidMixedLine = true;
+        }
+
+        return isValidMixedLine;
     }
 }
