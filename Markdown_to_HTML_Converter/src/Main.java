@@ -7,7 +7,7 @@ import java.util.logging.SimpleFormatter;
 public class Main {
 
     private static final Logger logger = Logger.getLogger(Main.class.getName()); // Create a logger
-    private static final int MAX_CHAR_LIMIT = 1000; // Set your desired character limit here
+    private static final int MAX_CHAR_LIMIT = 2000; // Set your desired character limit here
 
     public static void main(String[] args) {
 
